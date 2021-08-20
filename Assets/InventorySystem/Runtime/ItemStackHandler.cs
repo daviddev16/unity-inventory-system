@@ -5,9 +5,12 @@ namespace InventorySystem
 {
     public class ItemStackHandler : MonoBehaviour
     {
-        /*item display*/
-        public ItemStack ItemStack;
-        public int Amount;
+        private ItemStackHandlerInfo ItemInfo;
 
+
+        public void SetHandlerInformation(ItemStack ItemStack, int Amount)
+        {
+            ItemInfo = new ItemStackHandlerInfo()
+        }
     }
 }
