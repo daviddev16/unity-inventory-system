@@ -5,12 +5,24 @@ namespace InventorySystem
 {
     public class ItemStackHandler : MonoBehaviour
     {
-        private ItemStackHandlerInfo ItemInfo;
+        public ItemStackHandlerInfo ItemInfo;
 
-
-        public void SetHandlerInformation(ItemStack ItemStack, int Amount)
+        public void UpdateHandlerInfo(ItemStack itemStack, int amount)
         {
-            ItemInfo = new ItemStackHandlerInfo()
+            ItemInfo = new ItemStackHandlerInfo(itemStack, amount);
+            UpdateStates();
         }
+
+        public void SetHandlerInfo(ItemStackHandlerInfo ItemInfo)
+        {
+            this.ItemInfo = ItemInfo;
+            UpdateStates();
+        }
+
+        public void UpdateStates()
+        {
+            GetComponentInChildren<UnityEngine.UI.Text>().text = "" + ItemInfo.Amount;
+        }
+
     }
 }

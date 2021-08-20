@@ -10,13 +10,25 @@ namespace InventorySystem
         [SerializeField]
         private List<Container> containers;
 
-
         private void Awake()
         {
             SetupContainersFromChildren();
             RenameAllSlots();
         }
 
+        public static ItemStack APPLE = new ItemStack(false, null);
+
+        void Start()
+        {
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                AddItemStack(APPLE);
+            }
+        }
 
         private void SetupContainersFromChildren()
         {
@@ -29,25 +41,70 @@ namespace InventorySystem
 
         private void RenameAllSlots()
         {
-            IterateSlot((Slot, SlotIndex) => Slot.RenameWithIndex(ref SlotIndex));
+            IterateSlots((Slot, SlotIndex) =>
+            {
+                Slot.RenameWithIndex(ref SlotIndex);
+                return false;
+            });
         }
 
-        private void IterateSlot(Action<Slot, int> orderedSlot)
+        /*returns true if you want to break the iteration */
+        private void IterateSlots(Func<Slot, int, bool> orderedSlot)
         {
             int SlotIndex = 0;
-            foreach(Container container in containers)
+            bool broke = false;
+            foreach (Container container in containers)
             {
-                foreach(Slot Slot in container.Slots)
+                if (broke)
                 {
-                    orderedSlot?.Invoke(Slot, SlotIndex);
+                    break;
+                }
+                foreach (Slot Slot in container.Slots)
+                {
+                    if (orderedSlot.Invoke(Slot, SlotIndex))
+                    {
+                        broke = true;
+                        break;
+                    }
                     SlotIndex++;
                 }
             }
         }
 
-        void Start()
+        public ItemStackHandler ContainsItemStack(ItemStack itemStack)
         {
-
+            ItemStackHandler handler = null;
+            IterateSlots((Slot, SlotIndex) => {
+                if(!Slot.IsEmpty() && Slot.ItemStackHandler.ItemInfo.ItemStack.Equals(itemStack))
+                {
+                    handler = Slot.ItemStackHandler;
+                    return false;
+                }
+                return true;
+            });
+            return handler;
         }
+
+        public void AddItemStack(ItemStack itemStack)
+        {
+            IterateSlots((Slot, SlotIndex) =>
+            {
+                ItemStackHandler handler = ContainsItemStack(itemStack);
+                if (handler != null && itemStack.Stackable)
+                {
+                    handler.ItemInfo.Amount += 1;
+                    handler.UpdateStates();
+                    return true;
+                }
+                else if (Slot.IsEmpty())
+                {
+                    Slot.Populate(itemStack, 1);
+                    return true;
+                }
+                return false;
+            });
+        }
+
+        
     }
 }

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f81977a82df2194f80bbbde7148b539, type: 3}
-  m_Name: InventoryPrefab
+  m_Script: {fileID: 11500000, guid: 05c5bd0a4cc20394da6574ea88ef0209, type: 3}
+  m_Name: DefaultInventoryAssets
   m_EditorClassIdentifier: 
-  DisplayedItemPrefab: {fileID: 3852917987167315680, guid: fdfe1fe4085c0804d8a20d3ec47169c0, type: 3}
+  ItemStackHandlerAsset: {fileID: 9219022818838696467, guid: 0bcfa958934858c4fb68c13a269dbf2a, type: 3}
