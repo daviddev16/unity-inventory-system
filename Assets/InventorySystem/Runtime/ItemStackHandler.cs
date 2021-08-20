@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    public class ItemStackHandler : MonoBehaviour
+    public sealed class ItemStackHandler : MonoBehaviour, ItemComparision
     {
-        public ItemStackHandlerInfo ItemInfo;
+        private ItemStackHandlerInfo ItemInfo;
 
         public void UpdateHandlerInfo(ItemStack itemStack, int amount)
         {
@@ -19,10 +19,32 @@ namespace InventorySystem
             UpdateStates();
         }
 
+        public void ChangeAmount(bool increase, int value)
+        {
+            if (increase) { ItemInfo.Amount += value; }
+            else          { ItemInfo.Amount -= value; }
+
+            UpdateStates();
+        }
+
+        public void SetSlotParent(Slot Slot)
+            {
+                transform.SetParent(Slot.transform);
+            }
+
+        public void ResolveTransform()
+        {
+            GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        }
+
         public void UpdateStates()
         {
             GetComponentInChildren<UnityEngine.UI.Text>().text = "" + ItemInfo.Amount;
         }
 
+        public bool IsSimilar(ItemStack ItemStack)
+        {
+            return ItemInfo.ItemStack.Equals(ItemStack);
+        }
     }
 }

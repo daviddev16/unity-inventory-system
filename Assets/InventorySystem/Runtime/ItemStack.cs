@@ -6,9 +6,9 @@ namespace InventorySystem
     public struct ItemStack
     {
         public bool Stackable { get; set; }
-        public ItemStackBasedData ItemStackBasedData { get; set; }
+        public ItemStackBasedData[] ItemStackBasedData { get; set; }
 
-        public ItemStack(bool Stackable, ItemStackBasedData ItemStackBasedData)
+        public ItemStack(bool Stackable, ItemStackBasedData[] ItemStackBasedData)
         {
             this.ItemStackBasedData = ItemStackBasedData;
             this.Stackable = Stackable;

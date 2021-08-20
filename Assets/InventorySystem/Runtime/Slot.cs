@@ -5,20 +5,32 @@ namespace InventorySystem
 {
     public class Slot : MonoBehaviour
     {
-
         [SerializeField]
-        public ItemStackHandler ItemStackHandler;
+        private ItemStackHandler ItemStackHandler;
 
+        /* create the item inside the slot */
         public void Populate(ItemStack ItemStack, int amount)
         {
-            GameObject newItemHandler = Instantiate(ISA.GetItemStackHandlerAsset(), transform.position, Quaternion.identity);
-            newItemHandler.transform.SetParent(transform);
-            newItemHandler.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            ItemStackHandler = newItemHandler.GetComponent<ItemStackHandler>();
+            ItemStackHandler = Instantiate(ISA.GetItemStackHandlerAsset(), 
+                transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
+
+            ItemStackHandler.SetSlotParent(this);
+            ItemStackHandler.ResolveTransform();
+
             ItemStackHandler.UpdateHandlerInfo(ItemStack, amount);
         }
 
-        public void RenameWithIndex(ref int SlotIndex)
+        public bool ContainsItem(ItemStack ItemStack)
+        {
+            return GetItemHandler() != null && GetItemHandler().IsSimilar(ItemStack);
+        }
+
+        public ItemStackHandler GetItemHandler()
+        {
+            return ItemStackHandler;
+        }
+
+        internal protected void RenameSlot(ref int SlotIndex)
         {
             gameObject.name = "Slot " + SlotIndex;
         }
@@ -28,5 +40,8 @@ namespace InventorySystem
             return ItemStackHandler == null;
         }
 
+        
+
+      
     }
 }
