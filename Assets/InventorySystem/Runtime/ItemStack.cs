@@ -7,11 +7,13 @@ namespace InventorySystem
     {
         public bool Stackable { get; set; }
         public ItemStackBasedData[] ItemStackBasedData { get; set; }
+        public int StackLimit { get; set; }
 
-        public ItemStack(bool Stackable, ItemStackBasedData[] ItemStackBasedData)
+        public ItemStack(bool Stackable, int StackLimit, ItemStackBasedData[] ItemStackBasedData)
         {
             this.ItemStackBasedData = ItemStackBasedData;
             this.Stackable = Stackable;
+            this.StackLimit = StackLimit;
         }
 
 

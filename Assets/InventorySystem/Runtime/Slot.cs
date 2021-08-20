@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace InventorySystem
@@ -40,8 +41,14 @@ namespace InventorySystem
             return ItemStackHandler == null;
         }
 
-        
-
-      
+        internal void Migrate(ItemStackHandler itemStackHandler)
+        {
+            if (IsEmpty())
+            {
+                itemStackHandler.SetSlotParent(this);
+                itemStackHandler.ResolveTransform();
+                ItemStackHandler = itemStackHandler;
+            }
+        }
     }
 }

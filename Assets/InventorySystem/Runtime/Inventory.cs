@@ -6,6 +6,7 @@ namespace InventorySystem
 {
     public class Inventory : MonoBehaviour
     {
+        public static readonly ItemStack APPLE = new ItemStack(true, 10, null);
 
         [SerializeField]
         private List<Container> containers;
@@ -16,17 +17,17 @@ namespace InventorySystem
             RenameAllSlots();
         }
 
-        public static ItemStack APPLE = new ItemStack(false, null);
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
                 AddItemStack(APPLE);
             }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                RemoveItemStack(APPLE);
+            }
         }
-
-        
 
         private void IterateSlotsByFunction(Func<Slot, int, bool> orderedSlot)
         {
@@ -54,7 +55,7 @@ namespace InventorySystem
         {
             IterateSlotsByFunction((Slot, SlotIndex) =>
             {
-                orderedSlot.Invoke(Slot, SlotIndex); return true;
+                orderedSlot.Invoke(Slot, SlotIndex); return false;
             });
         }
 
@@ -74,14 +75,31 @@ namespace InventorySystem
             return handler;
         }
 
+        public void RemoveItemStack(ItemStack itemStack)
+        {
+            ItemStackHandler ItemStackHandler = FindItemStackHandler(itemStack);
+            if (ItemStackHandler != null)
+            {
+                if (ItemStackHandler.GetItemStack().Stackable)
+                {
+                    ItemStackHandler.ChangeAmount(false, 1);
+                }
+                else
+                {
+                    ItemStackHandler.SelfPurge();
+                }
+            }
+        }
+
         public void AddItemStack(ItemStack itemStack)
         {
-            IterateSlots((Slot, SlotIndex) =>
+            IterateSlotsByFunction((Slot, SlotIndex) =>
             {
-                ItemStackHandler handler = FindItemStackHandler(itemStack);
-                if (handler != null && itemStack.Stackable)
+
+                ItemStackHandler ItemStackHandler = FindItemStackHandler(itemStack);
+                if (ItemStackHandler != null && itemStack.Stackable && ItemStackHandler.IsFree())
                 {
-                    handler.ChangeAmount(true, 1);
+                    ItemStackHandler.ChangeAmount(true, 1);
                     return true;
                 }
                 else if (Slot.IsEmpty())
@@ -89,6 +107,8 @@ namespace InventorySystem
                     Slot.Populate(itemStack, 1);
                     return true;
                 }
+
+                /*just skip to the next slot*/
                 return false;
             });
         }
