@@ -1,18 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
-public class Inventory : MonoBehaviour
+namespace InventorySystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Inventory : MonoBehaviour
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [SerializeField]
+        private List<Container> containers;
+
+
+        private void Awake()
+        {
+            SetupContainersFromChildren();
+        }
+
+
+        private void SetupContainersFromChildren()
+        {
+            foreach (Container container in GetComponentsInChildren<Container>())
+            {
+                containers.Add(container);
+            }
+            containers.Sort();
+            RenameAllSlots();
+        }
+
+        private void RenameAllSlots()
+        {
+            IterateSlot((Slot, SlotIndex) => Slot.RenameWithIndex(ref SlotIndex));
+        }
+
+        private void IterateSlot(Action<Slot, int> orderedSlot)
+        {
+            int SlotIndex = 0;
+            foreach(Container container in containers)
+            {
+                foreach(Slot Slot in container.Slots)
+                {
+                    orderedSlot?.Invoke(Slot, SlotIndex);
+                    SlotIndex++;
+                }
+            }
+        }
+
+
+        void Start()
+        {
+
+        }
     }
 }
