@@ -4,7 +4,7 @@ using UnityEngine;
 namespace InventorySystem
 {
     [System.Serializable]
-    public struct ItemStackHandlerInfo 
+    public struct ItemStackHandlerInfo : System.ICloneable
     {
         /*item display*/
         public ItemStack ItemStack { get; set; }
@@ -14,6 +14,11 @@ namespace InventorySystem
         {
             this.ItemStack = ItemStack;
             this.Amount = Amount;
+        }
+
+        public object Clone()
+        {
+            return new ItemStackHandlerInfo(ItemStack, Amount);
         }
     }
 }

@@ -71,6 +71,11 @@ namespace InventorySystem
             transform.SetParent(Slot.transform);
         }
         
+        public ItemStackHandlerInfo CopyInformation()
+        {
+            return (ItemStackHandlerInfo) ItemInfo.Clone();
+        }
+
         public ItemStack GetItemStack()
         {
             return ItemInfo.ItemStack;
@@ -91,6 +96,7 @@ namespace InventorySystem
 
         public void OnDrag(PointerEventData eventData)
         {
+
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -101,6 +107,13 @@ namespace InventorySystem
                 if (CurrentRaycast.GetComponent<Slot>())
                 {
                     CurrentRaycast.GetComponent<Slot>().Migrate(this);
+                }
+                else if (CurrentRaycast.GetComponent<ItemStackHandler>())
+                {
+                    Slot ParentSlot = CurrentRaycast.GetComponentInParent<Slot>();
+                    Slot CurrentSlot = GetComponentInParent<Slot>();
+
+                    CurrentSlot.SwitchItemsFromSlots(ParentSlot);
                 }
             }
 

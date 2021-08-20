@@ -97,7 +97,7 @@ namespace InventorySystem
             {
 
                 ItemStackHandler ItemStackHandler = FindItemStackHandler(itemStack);
-                if (ItemStackHandler != null && itemStack.Stackable && ItemStackHandler.IsFree())
+                if (ItemStackHandler != null && itemStack.Stackable /* && ItemStackHandler.IsFree() */)
                 {
                     ItemStackHandler.ChangeAmount(true, 1);
                     return true;

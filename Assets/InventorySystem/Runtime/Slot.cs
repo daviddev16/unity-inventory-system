@@ -41,14 +41,38 @@ namespace InventorySystem
             return ItemStackHandler == null;
         }
 
+        public void UpdateState()
+        {
+            ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
+        }
+
         internal void Migrate(ItemStackHandler itemStackHandler)
         {
+            Slot PreviousSlot = itemStackHandler.GetComponentInParent<Slot>(); 
             if (IsEmpty())
             {
                 itemStackHandler.SetSlotParent(this);
                 itemStackHandler.ResolveTransform();
                 ItemStackHandler = itemStackHandler;
+                PreviousSlot.UpdateState();
             }
+        }
+
+        public void SwitchItemsFromSlots(Slot Slot)
+        {
+            if(Slot.ItemStackHandler != null && ItemStackHandler != null)
+            {
+                ItemStackHandler.SetSlotParent(Slot);
+                ItemStackHandler.ResolveTransform();
+
+                Slot.ItemStackHandler.SetSlotParent(this);
+                Slot.ItemStackHandler.ResolveTransform();
+
+                Slot.UpdateState();
+                UpdateState();
+
+            }
+
         }
     }
 }
