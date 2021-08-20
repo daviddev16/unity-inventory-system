@@ -1,33 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace InventorySystem
 {
-    public class Container : MonoBehaviour, IComparer<Container>
+    public class Container : MonoBehaviour
     {
-
         public Inventory Owner { protected set; get; }
 
         [SerializeField] public List<Slot> Slots { protected set; get; }
         [SerializeField] public int Order { protected set; get; } = 0;
 
-        void Start()
+        private void Awake()
         {
-
+            Slots = new List<Slot>();
+            SetupSlotsFromChildren();
         }
 
-        void Update()
+        private void SetupSlotsFromChildren()
         {
-
-        }
-
-        public int Compare(Container x, Container y)
-        {
-            if (x.Order > y.Order) return -1;
-            else if (x.Order < y.Order) return 1;
-            return 0;
+            foreach (Slot Slot in GetComponentsInChildren<Slot>()) Slots.Add(Slot);
         }
     }
 }

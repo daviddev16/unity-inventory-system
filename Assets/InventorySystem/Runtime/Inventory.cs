@@ -14,6 +14,7 @@ namespace InventorySystem
         private void Awake()
         {
             SetupContainersFromChildren();
+            RenameAllSlots();
         }
 
 
@@ -23,8 +24,7 @@ namespace InventorySystem
             {
                 containers.Add(container);
             }
-            containers.Sort();
-            RenameAllSlots();
+            containers.Sort(new ContainerComparer());
         }
 
         private void RenameAllSlots()
@@ -44,7 +44,6 @@ namespace InventorySystem
                 }
             }
         }
-
 
         void Start()
         {
