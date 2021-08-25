@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace InventorySystem
+﻿namespace InventorySystem
 {
     [System.Serializable]
     public struct ItemStackHandlerInfo : System.ICloneable

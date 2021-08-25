@@ -5,44 +5,22 @@ using UnityEngine.UI;
 
 namespace InventorySystem
 {
-    public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, 
-        IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, InventoryEntityState, 
+        IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         private ItemStackHandlerInfo ItemInfo;
-
-
-        public void UpdateStates()
-        {
-            if (ValidateState())
-            {
-                GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
-            }
-        }
-
-        private bool ValidateState()
-        {
-            if (ItemInfo.Amount <= 0)
-            {
-                SelfPurge();
-                return false;
-            }
-
-            return true;
-        }
 
         public void UpdateHandlerInfo(ItemStack itemStack, int amount)
         {
             ItemInfo = new ItemStackHandlerInfo(itemStack, amount);
-            UpdateStates();
+            UpdateStage();
         }
-
-
+        
         public void ChangeAmount(bool increase, int value)
         {
             if (increase) { ItemInfo.Amount += value; }
             else { ItemInfo.Amount -= value; }
-
-            UpdateStates();
+            UpdateStage();
         }
 
         public bool IsFree()
@@ -53,7 +31,31 @@ namespace InventorySystem
         public void SetHandlerInfo(ItemStackHandlerInfo ItemInfo)
         {
             this.ItemInfo = ItemInfo;
-            UpdateStates();
+            UpdateStage();
+        }
+
+        public bool ValidationStage()
+        {
+            if (!Exists())
+            {
+                SelfPurge();
+            }
+            return true;
+        }
+
+        public void UpdateStage()
+        {
+            if (ValidationStage())
+            {
+                GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
+            }
+        }
+
+        public void SetupToSlot(Slot Slot)
+        {
+            SetSlotParent(Slot);
+            ResolveTransform();
+            Slot.UpdateStage();
         }
 
         public void ResolveTransform()
@@ -61,9 +63,46 @@ namespace InventorySystem
             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
 
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            GameObject CurrentRaycast = eventData.pointerCurrentRaycast.gameObject;
+
+            if (CurrentRaycast != null)
+            {
+                if (CurrentRaycast.GetComponent<Slot>())
+                {
+                    CurrentRaycast.GetComponent<Slot>().Migrate(this);
+                }
+                else if (CurrentRaycast.GetComponent<ItemStackHandler>())
+                {
+                    Slot ParentSlot = CurrentRaycast.GetComponentInParent<Slot>();
+                    Slot CurrentSlot = GetComponentInParent<Slot>();
+
+                    CurrentSlot.SwitchItemsBySlots(ParentSlot);
+                }
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+        }
+
         public bool IsSimilar(ItemStack ItemStack)
         {
             return ItemInfo.ItemStack.Equals(ItemStack);
+        }
+
+        public bool IsSimilar(ItemStackHandler ItemStackHandler)
+        {
+            return IsSimilar(ItemStackHandler.GetItemStack());
         }
 
         public void SetSlotParent(Slot Slot)
@@ -81,43 +120,20 @@ namespace InventorySystem
             return ItemInfo.ItemStack;
         }
 
-        public void SelfPurge()
+        private void SelfPurge()
         {
             Destroy(gameObject);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        private bool Exists()
         {
-        }
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            GameObject CurrentRaycast = eventData.pointerCurrentRaycast.gameObject; 
-            if(CurrentRaycast != null)
+            if (ItemInfo.Amount <= 0)
             {
-                if (CurrentRaycast.GetComponent<Slot>())
-                {
-                    CurrentRaycast.GetComponent<Slot>().Migrate(this);
-                }
-                else if (CurrentRaycast.GetComponent<ItemStackHandler>())
-                {
-                    Slot ParentSlot = CurrentRaycast.GetComponentInParent<Slot>();
-                    Slot CurrentSlot = GetComponentInParent<Slot>();
-
-                    CurrentSlot.SwitchItemsFromSlots(ParentSlot);
-                }
+                return false;
             }
 
-
+            return true;
         }
+
     }
 }

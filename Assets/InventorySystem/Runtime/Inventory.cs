@@ -6,7 +6,7 @@ namespace InventorySystem
 {
     public class Inventory : MonoBehaviour
     {
-        public static readonly ItemStack APPLE = new ItemStack(true, 10, null);
+        public static readonly ItemStack APPLE = new ItemStack(true, 10);
 
         [SerializeField]
         private List<Container> containers;
@@ -126,6 +126,5 @@ namespace InventorySystem
         {
             IterateSlots((Slot, SlotIndex) => Slot.RenameSlot(ref SlotIndex));
         }
-
     }
 }

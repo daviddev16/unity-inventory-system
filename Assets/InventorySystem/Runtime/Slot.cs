@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    public class Slot : MonoBehaviour
+    public class Slot : MonoBehaviour, InventoryEntityState
     {
         [SerializeField]
         private ItemStackHandler ItemStackHandler;
@@ -51,28 +51,32 @@ namespace InventorySystem
             Slot PreviousSlot = itemStackHandler.GetComponentInParent<Slot>(); 
             if (IsEmpty())
             {
-                itemStackHandler.SetSlotParent(this);
-                itemStackHandler.ResolveTransform();
+                itemStackHandler.SetupToSlot(this);
                 ItemStackHandler = itemStackHandler;
                 PreviousSlot.UpdateState();
             }
         }
 
-        public void SwitchItemsFromSlots(Slot Slot)
+        public void SwitchItemsBySlots(Slot Slot)
         {
             if(Slot.ItemStackHandler != null && ItemStackHandler != null)
             {
-                ItemStackHandler.SetSlotParent(Slot);
-                ItemStackHandler.ResolveTransform();
-
-                Slot.ItemStackHandler.SetSlotParent(this);
-                Slot.ItemStackHandler.ResolveTransform();
-
-                Slot.UpdateState();
-                UpdateState();
-
+                ItemStackHandler.SetupToSlot(Slot);
+                Slot.ItemStackHandler.SetupToSlot(this);
             }
 
         }
-    }
+
+        public bool ValidationStage()
+        {
+            return ItemStackHandler == null;
+        }
+
+        public void UpdateStage()
+        {
+            if (ValidationStage())
+            {
+                ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
+            }
+        }
 }

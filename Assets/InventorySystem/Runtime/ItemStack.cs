@@ -1,21 +1,20 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace InventorySystem
 {
-    public struct ItemStack
+    [System.Serializable]
+    public class ItemStack
     {
-        public bool Stackable { get; set; }
-        public ItemStackBasedData[] ItemStackBasedData { get; set; }
-        public int StackLimit { get; set; }
+        public bool Stackable { get; }
+        public int StackLimit { get; }
 
-        public ItemStack(bool Stackable, int StackLimit, ItemStackBasedData[] ItemStackBasedData)
+        public ItemStack(bool Stackable, int StackLimit)
         {
-            this.ItemStackBasedData = ItemStackBasedData;
             this.Stackable = Stackable;
             this.StackLimit = StackLimit;
         }
-
 
     }
 }
