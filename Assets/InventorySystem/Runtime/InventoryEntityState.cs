@@ -2,8 +2,6 @@
 {
     public interface InventoryEntityState
     {
-        bool ValidationStage();
-
         void UpdateStage();
     }
 }

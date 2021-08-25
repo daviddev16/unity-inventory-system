@@ -9,6 +9,7 @@ namespace InventorySystem
         IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         private ItemStackHandlerInfo ItemInfo;
+        public Slot ParentSlot;
 
         public void UpdateHandlerInfo(ItemStack itemStack, int amount)
         {
@@ -34,28 +35,15 @@ namespace InventorySystem
             UpdateStage();
         }
 
-        public bool ValidationStage()
+        public void UpdateStage()
         {
             if (!Exists())
             {
                 SelfPurge();
             }
-            return true;
-        }
 
-        public void UpdateStage()
-        {
-            if (ValidationStage())
-            {
-                GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
-            }
-        }
-
-        public void SetupToSlot(Slot Slot)
-        {
-            SetSlotParent(Slot);
-            ResolveTransform();
-            Slot.UpdateStage();
+            ParentSlot = GetComponentInParent<Slot>();
+            GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
         }
 
         public void ResolveTransform()
@@ -69,20 +57,18 @@ namespace InventorySystem
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            GameObject CurrentRaycast = eventData.pointerCurrentRaycast.gameObject;
+            InventoryEntityState EntityState = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryEntityState>();
 
-            if (CurrentRaycast != null)
+            if (EntityState != null)
             {
-                if (CurrentRaycast.GetComponent<Slot>())
+                if (EntityState is Slot)
                 {
-                    CurrentRaycast.GetComponent<Slot>().Migrate(this);
+                    (EntityState as Slot).Migrate(this);
                 }
-                else if (CurrentRaycast.GetComponent<ItemStackHandler>())
+                else if (EntityState is ItemStackHandler)
                 {
-                    Slot ParentSlot = CurrentRaycast.GetComponentInParent<Slot>();
-                    Slot CurrentSlot = GetComponentInParent<Slot>();
-
-                    CurrentSlot.SwitchItemsBySlots(ParentSlot);
+                    Slot OtherItemSlot = (EntityState as ItemStackHandler).ParentSlot;
+                    ParentSlot.SwitchItemsBySlots(OtherItemSlot);
                 }
             }
         }
@@ -120,7 +106,7 @@ namespace InventorySystem
             return ItemInfo.ItemStack;
         }
 
-        private void SelfPurge()
+        public void SelfPurge()
         {
             Destroy(gameObject);
         }

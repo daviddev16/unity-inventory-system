@@ -12,13 +12,11 @@ namespace InventorySystem
         /* create the item inside the slot */
         public void Populate(ItemStack ItemStack, int amount)
         {
-            ItemStackHandler = Instantiate(ISA.GetItemStackHandlerAsset(), 
+            ItemStackHandler = Instantiate(ISA.GetItemStackHandlerAsset(),
                 transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
-            ItemStackHandler.SetSlotParent(this);
-            ItemStackHandler.ResolveTransform();
-
             ItemStackHandler.UpdateHandlerInfo(ItemStack, amount);
+            Setup(ItemStackHandler);
         }
 
         public bool ContainsItem(ItemStack ItemStack)
@@ -48,35 +46,41 @@ namespace InventorySystem
 
         internal void Migrate(ItemStackHandler itemStackHandler)
         {
-            Slot PreviousSlot = itemStackHandler.GetComponentInParent<Slot>(); 
+            Slot PreviousSlot = itemStackHandler.ParentSlot;
             if (IsEmpty())
             {
-                itemStackHandler.SetupToSlot(this);
-                ItemStackHandler = itemStackHandler;
-                PreviousSlot.UpdateState();
+                Setup(itemStackHandler);
+                UpdateSelfStageAnd(PreviousSlot);
             }
         }
 
         public void SwitchItemsBySlots(Slot Slot)
         {
-            if(Slot.ItemStackHandler != null && ItemStackHandler != null)
+            if (Slot.ItemStackHandler != null && ItemStackHandler != null)
             {
-                ItemStackHandler.SetupToSlot(Slot);
-                Slot.ItemStackHandler.SetupToSlot(this);
-            }
+                Slot.Setup(ItemStackHandler);
+                Setup(Slot.ItemStackHandler);
 
+                UpdateSelfStageAnd(Slot);
+            }
         }
 
-        public bool ValidationStage()
+        private void UpdateSelfStageAnd(Slot Slot)
         {
-            return ItemStackHandler == null;
+            Slot.UpdateStage();
+            UpdateStage();
+        }
+
+        public void Setup(ItemStackHandler Handler)
+        {
+            Handler.SetSlotParent(this);
+            Handler.ResolveTransform();
+            Handler.UpdateStage();
         }
 
         public void UpdateStage()
         {
-            if (ValidationStage())
-            {
-                ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
-            }
+            ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
         }
+    }
 }

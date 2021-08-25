@@ -7,6 +7,7 @@ namespace InventorySystem
     public class Inventory : MonoBehaviour
     {
         public static readonly ItemStack APPLE = new ItemStack(true, 10);
+        public static readonly ItemStack ORANGE = new ItemStack(true, 20);
 
         [SerializeField]
         private List<Container> containers;
@@ -26,6 +27,16 @@ namespace InventorySystem
             else if (Input.GetKeyDown(KeyCode.L))
             {
                 RemoveItemStack(APPLE);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                AddItemStack(ORANGE);
+            }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                RemoveItemStack(ORANGE);
             }
         }
 
