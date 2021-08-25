@@ -75,7 +75,7 @@ namespace InventorySystem
             ItemStackHandler handler = null;
             IterateSlotsByFunction((Slot, SlotIndex) => 
             {
-                if(!Slot.IsEmpty() && Slot.ContainsItem(itemStack))
+                if(Slot.ContainsItem(itemStack))
                 {
                     handler = Slot.GetItemHandler();
                     return false;
@@ -106,12 +106,16 @@ namespace InventorySystem
         {
             IterateSlotsByFunction((Slot, SlotIndex) =>
             {
+                ItemStackHandler ItemStackHandler = Slot.GetItemHandler();
 
-                ItemStackHandler ItemStackHandler = FindItemStackHandler(itemStack);
-                if (ItemStackHandler != null && itemStack.Stackable /* && ItemStackHandler.IsFree() */)
+                if(ItemStackHandler != null)
                 {
-                    ItemStackHandler.ChangeAmount(true, 1);
-                    return true;
+                    if(ItemStackHandler.IsSimilar(itemStack) && ItemStackHandler.IsFree())
+                    {
+                        ItemStackHandler.ChangeAmount(true, 1);
+                        return true;
+
+                    }
                 }
                 else if (Slot.IsEmpty())
                 {

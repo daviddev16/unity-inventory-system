@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace InventorySystem
+﻿namespace InventorySystem
 {
     public interface ItemComparision
     {

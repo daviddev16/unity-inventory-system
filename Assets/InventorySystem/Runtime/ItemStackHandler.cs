@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,6 +9,8 @@ namespace InventorySystem
     {
         private ItemStackHandlerInfo ItemInfo;
         public Slot ParentSlot;
+
+        private Vector2 beginPos;
 
         public void UpdateHandlerInfo(ItemStack itemStack, int amount)
         {
@@ -26,7 +27,7 @@ namespace InventorySystem
 
         public bool IsFree()
         {
-            return ItemInfo.Amount < GetItemStack().StackLimit;
+            return (GetItemStack().Stackable && ItemInfo.Amount < GetItemStack().StackLimit);
         }
 
         public void SetHandlerInfo(ItemStackHandlerInfo ItemInfo)
@@ -53,6 +54,9 @@ namespace InventorySystem
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            beginPos = eventData.position;
+            transform.SetParent(GetComponentInParent<Inventory>().transform);
+            transform.SetAsFirstSibling();
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -79,6 +83,7 @@ namespace InventorySystem
 
         public void OnDrag(PointerEventData eventData)
         {
+            transform.position = new Vector3(eventData.position.x, eventData.position.y, 0);
         }
 
         public bool IsSimilar(ItemStack ItemStack)

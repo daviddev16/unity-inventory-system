@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InventorySystem
 {
@@ -8,12 +7,15 @@ namespace InventorySystem
         [Header("Inventory System Assets")]
         public InventoryAssets InventoryAssets;
 
+        private InventorySystem InventorySystem;
+
         private static ISA IS_A;
 
         private void Awake()
         {
             if(IS_A == null)
             {
+                InventorySystem = GetComponent<InventorySystem>();
                 IS_A = this;
             }
             else
@@ -25,6 +27,7 @@ namespace InventorySystem
         private void Start()
         {
             DontDestroyOnLoad(this);
+            InventorySystem.OnInventoryInit();
         }
 
         public static InventoryAssets GetAssets()
