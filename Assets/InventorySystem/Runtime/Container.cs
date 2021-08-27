@@ -8,12 +8,17 @@ namespace InventorySystem
         public Inventory Owner { protected set; get; }
 
         [SerializeField] public List<Slot> Slots { protected set; get; }
-        [SerializeField] public int Order { protected set; get; } = 0;
+        [SerializeField] private int Order = 0;
 
         private void Awake()
         {
             Slots = new List<Slot>();
             SetupSlotsFromChildren();
+        }
+
+        public int GetOrder()
+        {
+            return Order;
         }
 
         private void SetupSlotsFromChildren()

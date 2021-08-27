@@ -4,12 +4,10 @@
     public class ItemStack
     {
         public bool Stackable { get; }
-        public int StackLimit { get; } /* not implemented */
 
-        public ItemStack(bool Stackable, int StackLimit)
+        public ItemStack(bool Stackable)
         {
             this.Stackable = Stackable;
-            this.StackLimit = StackLimit;
         }
 
     }
