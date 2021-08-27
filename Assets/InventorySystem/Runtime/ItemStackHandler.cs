@@ -45,6 +45,8 @@ namespace InventorySystem
 
             ParentSlot = GetComponentInParent<Slot>();
             GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
+            GetComponent<Image>().sprite = GetItemStack().Sprite;
+            gameObject.name = GetItemStack().Name;
         }
 
         public void ResolveTransform()
@@ -88,7 +90,7 @@ namespace InventorySystem
 
         public bool IsSimilar(ItemStack ItemStack)
         {
-            return ItemInfo.ItemStack.Equals(ItemStack);
+            return ItemInfo.ItemStack.ID == ItemStack.ID;
         }
 
         public bool IsSimilar(ItemStackHandler ItemStackHandler)

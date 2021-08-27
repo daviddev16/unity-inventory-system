@@ -599,6 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InventoryAssets: {fileID: 11400000, guid: 86caba4661b701c40b462d20fc5ce15e, type: 2}
+  InventorySystem: {fileID: 0}
 --- !u!4 &227443696
 Transform:
   m_ObjectHideFlags: 0
@@ -1658,6 +1659,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containers: []
+  ItemStackHandlerAsset: {fileID: 9219022818838696467, guid: 0bcfa958934858c4fb68c13a269dbf2a, type: 3}
+  RegisteredItemStacks:
+  - {fileID: 11400000, guid: d8b820e144ded08458704986ff69cdb3, type: 2}
+  - {fileID: 11400000, guid: f47fe5dba6ccd5d48a6942c10b4547fa, type: 2}
+  - {fileID: 11400000, guid: 93c3242836163f94e9413ea7c51072b4, type: 2}
+  - {fileID: 11400000, guid: 90c6b0040f9a4274084892ca158582df, type: 2}
+  - {fileID: 11400000, guid: ef254c2398f37b7438089bd5cb2f657e, type: 2}
+  - {fileID: 11400000, guid: 0200c18a5f559c64daa12157825e3818, type: 2}
 --- !u!114 &517953145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1970,10 +1979,9 @@ GameObject:
   - component: {fileID: 623657249}
   - component: {fileID: 623657248}
   - component: {fileID: 623657247}
-  - component: {fileID: 623657246}
   - component: {fileID: 623657245}
   m_Layer: 5
-  m_Name: InventoryPage 2 (1)
+  m_Name: HotBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2018,26 +2026,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
---- !u!114 &623657246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 623657243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!114 &623657247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2074,6 +2062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bb4186acd8a1746b190f293c226980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Order: 0
 --- !u!114 &623657249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2570,7 +2559,6 @@ GameObject:
   - component: {fileID: 858641300}
   - component: {fileID: 858641299}
   - component: {fileID: 858641298}
-  - component: {fileID: 858641297}
   - component: {fileID: 858641296}
   m_Layer: 5
   m_Name: Side Container
@@ -2628,26 +2616,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
---- !u!114 &858641297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858641294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!114 &858641298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2684,6 +2652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bb4186acd8a1746b190f293c226980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Order: 2
 --- !u!114 &858641300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4717,7 +4686,6 @@ GameObject:
   - component: {fileID: 1761975337}
   - component: {fileID: 1761975335}
   - component: {fileID: 1761975334}
-  - component: {fileID: 1761975333}
   - component: {fileID: 1761975338}
   m_Layer: 5
   m_Name: Main Container
@@ -4769,26 +4737,6 @@ RectTransform:
   m_AnchoredPosition: {x: 291.6292, y: -386}
   m_SizeDelta: {x: 481.9349, y: 667.6286}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1761975333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761975331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!114 &1761975334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4825,6 +4773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bb4186acd8a1746b190f293c226980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Order: 1
 --- !u!222 &1761975336
 CanvasRenderer:
   m_ObjectHideFlags: 0

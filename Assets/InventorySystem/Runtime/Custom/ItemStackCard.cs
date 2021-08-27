@@ -3,18 +3,8 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    public class ItemStackCard : MonoBehaviour
+    public class ItemStackCard : ScriptableObject
     {
-
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+       
     }
 }

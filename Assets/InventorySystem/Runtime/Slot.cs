@@ -10,7 +10,7 @@ namespace InventorySystem
         /* create the item inside the slot */
         public void Populate(ItemStack ItemStack, int amount)
         {
-            ItemStackHandler = Instantiate(ISA.GetItemStackHandlerAsset(),
+            ItemStackHandler = Instantiate(Inventory.GetInventory().ItemStackHandlerAsset,
                 transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
             ItemStackHandler.UpdateHandlerInfo(ItemStack, amount);

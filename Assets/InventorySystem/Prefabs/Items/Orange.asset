@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05c5bd0a4cc20394da6574ea88ef0209, type: 3}
-  m_Name: DefaultInventoryAssets
+  m_Script: {fileID: 11500000, guid: 963630c6908471947ad57cdbac339b41, type: 3}
+  m_Name: Orange
   m_EditorClassIdentifier: 
-  ItemStackHandlerAsset: {fileID: 9219022818838696467, guid: 0bcfa958934858c4fb68c13a269dbf2a, type: 3}
+  Sprite: {fileID: -4364174425495506576, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  Name: Orange
+  ID: 4
+  Stackable: 1

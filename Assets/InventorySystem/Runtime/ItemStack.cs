@@ -3,16 +3,19 @@
 namespace InventorySystem
 {
     [System.Serializable]
-    public class ItemStack
+    [CreateAssetMenu(fileName = "ItemStack", menuName = "New ItemStack", order = -1)]
+    public class ItemStack : ScriptableObject
     {
-        public Sprite Sprite { get; protected set; }
-        public string Name { get; protected set; }
-        public bool Stackable { get; }
+        public Sprite Sprite;
+        public string Name;
+        public int ID;
+        public bool Stackable;
 
-        public ItemStack(bool Stackable, string Name, Sprite Sprite)
+        public ItemStack(int ID, bool Stackable, string Name, Sprite Sprite)
         {
             this.Stackable = Stackable;
             this.Name = Name;
+            this.ID = ID;
             this.Sprite = Sprite;
         }
 

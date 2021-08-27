@@ -7,18 +7,50 @@ namespace InventorySystem
     public class Inventory : MonoBehaviour
     {
 
+        private static Inventory Instance;
+
         [SerializeField]
         private List<Container> containers;
 
+        public GameObject ItemStackHandlerAsset;
+
+        public ItemStack[] RegisteredItemStacks;
+
+        public static Inventory GetInventory()
+        {
+            return Instance;
+        }
+
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
+
             SetupContainersFromChildren();
             RenameAllSlots();
         }
 
         private void Update()
         {
-           
+            
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                AddItemStack(RegisteredItemStacks[2]);
+            }
+        }
+
+        private void Start()
+        {
+            foreach (ItemStack itemStack in RegisteredItemStacks)
+            {
+                AddItemStack(itemStack);
+            }
         }
 
         private void IterateSlotsByFunction(Func<Slot, int, bool> orderedSlot)
@@ -54,16 +86,16 @@ namespace InventorySystem
         private ItemStackHandler FindItemStackHandler(ItemStack itemStack)
         {
             ItemStackHandler handler = null;
-            IterateSlotsByFunction((Slot, SlotIndex) => 
+            IterateSlotsByFunction((Slot, SlotIndex) =>
             {
-                if(Slot.ContainsItem(itemStack))
+                if (Slot.ContainsItem(itemStack))
                 {
                     handler = Slot.GetItemHandler();
                     return false;
                 }
                 return true;
             });
-            
+
             return handler;
         }
 
@@ -85,7 +117,7 @@ namespace InventorySystem
 
         public void AddItemStack(ItemStack itemStack, int Amount)
         {
-            for(int i = 0; i < Amount; i++)
+            for (int i = 0; i < Amount; i++)
             {
                 AddItemStack(itemStack);
             }
@@ -97,9 +129,9 @@ namespace InventorySystem
             {
                 ItemStackHandler ItemStackHandler = Slot.GetItemHandler();
 
-                if(ItemStackHandler != null)
+                if (ItemStackHandler != null)
                 {
-                    if(ItemStackHandler.IsSimilar(itemStack) && ItemStackHandler.IsFree())
+                    if (ItemStackHandler.IsSimilar(itemStack) && ItemStackHandler.IsFree())
                     {
                         ItemStackHandler.ChangeAmount(true, 1);
                         return true;
@@ -120,7 +152,7 @@ namespace InventorySystem
         public bool IsFull()
         {
             bool IsFull = true;
-            IterateSlotsByFunction((Slot, SlotIndex) => 
+            IterateSlotsByFunction((Slot, SlotIndex) =>
             {
                 if (Slot.IsEmpty())
                 {
