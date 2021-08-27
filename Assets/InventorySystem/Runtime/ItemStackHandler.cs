@@ -27,7 +27,7 @@ namespace InventorySystem
 
         public bool IsFree()
         {
-            return (GetItemStack().Stackable && ItemInfo.Amount < GetItemStack().StackLimit);
+            return (GetItemStack().Stackable);
         }
 
         public void SetHandlerInfo(ItemStackHandlerInfo ItemInfo)
@@ -38,7 +38,7 @@ namespace InventorySystem
 
         public void UpdateStage()
         {
-            if (!Exists())
+            if (!CheckAmount())
             {
                 SelfPurge();
             }
@@ -116,7 +116,7 @@ namespace InventorySystem
             Destroy(gameObject);
         }
 
-        private bool Exists()
+        private bool CheckAmount()
         {
             if (ItemInfo.Amount <= 0)
             {

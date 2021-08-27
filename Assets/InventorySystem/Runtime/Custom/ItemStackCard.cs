@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace InventorySystem.Custom
+namespace InventorySystem
 {
     public class ItemStackCard : MonoBehaviour
     {

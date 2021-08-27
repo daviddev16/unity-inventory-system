@@ -6,8 +6,6 @@ namespace InventorySystem
 {
     public class Inventory : MonoBehaviour
     {
-        public static readonly ItemStack APPLE = new ItemStack(true, 10);
-        public static readonly ItemStack ORANGE = new ItemStack(true, 20);
 
         [SerializeField]
         private List<Container> containers;
@@ -20,24 +18,7 @@ namespace InventorySystem
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                AddItemStack(APPLE);
-            }
-            else if (Input.GetKeyDown(KeyCode.L))
-            {
-                RemoveItemStack(APPLE);
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                AddItemStack(ORANGE);
-            }
-            else if (Input.GetKeyDown(KeyCode.O))
-            {
-                RemoveItemStack(ORANGE);
-            }
+           
         }
 
         private void IterateSlotsByFunction(Func<Slot, int, bool> orderedSlot)
@@ -102,6 +83,14 @@ namespace InventorySystem
             }
         }
 
+        public void AddItemStack(ItemStack itemStack, int Amount)
+        {
+            for(int i = 0; i < Amount; i++)
+            {
+                AddItemStack(itemStack);
+            }
+        }
+
         public void AddItemStack(ItemStack itemStack)
         {
             IterateSlotsByFunction((Slot, SlotIndex) =>
@@ -126,6 +115,22 @@ namespace InventorySystem
                 /*just skip to the next slot*/
                 return false;
             });
+        }
+
+        public bool IsFull()
+        {
+            bool IsFull = true;
+            IterateSlotsByFunction((Slot, SlotIndex) => 
+            {
+                if (Slot.IsEmpty())
+                {
+                    IsFull = false;
+                    return true;
+                }
+
+                return false;
+            });
+            return IsFull;
         }
 
         private void SetupContainersFromChildren()
