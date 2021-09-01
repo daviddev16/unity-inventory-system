@@ -113,26 +113,33 @@ namespace InventorySystem
             gameObject.name = GetItemStack().Name;
         }
 
-
-
-        public void SetInformation(ItemStackHandlerInfo ItemInfo)
+        public bool IsSimilar(ItemStack itemStack, int comparisonLevel)
         {
-            this.ItemInfo = ItemInfo;
+            if(comparisonLevel == ItemStack.HIGH_LEVEL_COMPARISON)
+            {
+                return (itemStack.ID == GetItemStack().ID) && (itemStack.Data == GetItemStack().Data);
+            }
+            else if(comparisonLevel == ItemStack.LOW_LEVEL_COMPARISON)
+            {
+                return (itemStack.ID == GetItemStack().ID);
+            }
+
+            return false;
         }
 
-        public bool IsSimilar(ItemStack ItemStack)
+        public bool IsSimilar(ItemStackHandler itemHandler, int comparisonLevel)
         {
-            return ItemInfo.ItemStack.ID == ItemStack.ID;
-        }
-
-        public bool IsSimilar(ItemStackHandler ItemStackHandler)
-        {
-            return IsSimilar(ItemStackHandler.GetItemStack());
+            return IsSimilar(itemHandler.GetItemStack(), comparisonLevel);
         }
 
         public void ResolveTransform()
         {
             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        }
+
+        public void SetInformation(ItemStackHandlerInfo ItemInfo)
+        {
+            this.ItemInfo = ItemInfo;
         }
 
         public ItemStack GetItemStack()

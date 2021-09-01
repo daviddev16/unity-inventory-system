@@ -2,8 +2,7 @@
 {
     public interface ItemComparision
     {
-        bool IsSimilar(ItemStack ItemStack);
-
-        bool IsSimilar(ItemStackHandler ItemStackHandler);
+        bool IsSimilar(ItemStack itemStack, int comparisonLevel);
+        bool IsSimilar(ItemStackHandler itemHandler, int comparisonLevel);
     }
 }

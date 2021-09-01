@@ -1,9 +1,8 @@
 ﻿namespace InventorySystem.Internals
 {
     [System.Serializable]
-    public struct ItemStackHandlerInfo : System.ICloneable
+    public struct ItemStackHandlerInfo    
     {
-        /*item display*/
         public ItemStack ItemStack { get; set; }
         public int Amount { get; set; }
 
@@ -11,11 +10,6 @@
         {
             this.ItemStack = ItemStack;
             this.Amount = Amount;
-        }
-
-        public object Clone()
-        {
-            return new ItemStackHandlerInfo(ItemStack, Amount);
         }
     }
 }
