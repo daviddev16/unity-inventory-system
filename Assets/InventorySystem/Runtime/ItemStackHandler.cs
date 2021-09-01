@@ -8,7 +8,6 @@ namespace InventorySystem
     public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, InventoryEntityState,
         IDragHandler, IEndDragHandler, IBeginDragHandler
     {
-
         private ItemStackHandlerInfo ItemInfo;
         private Slot ParentSlot;
 

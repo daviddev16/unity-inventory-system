@@ -8,11 +8,11 @@ namespace InventorySystem
         public static readonly int LOW_LEVEL_COMPARISON = 0;
         public static readonly int HIGH_LEVEL_COMPARISON = 1;
 
-        public int ID { get; private set; }
-        public string Name { get; private set; }
-        public byte Data { get; private set; }
-        public bool Stackable { get; private set; }
-        public UnityEngine.Sprite Sprite { get; private set; }
+        public int ID;
+        public string Name;
+        public byte Data;
+        public bool Stackable;
+        public UnityEngine.Sprite Sprite;
 
         public ItemStack(int ID, bool Stackable, string Name, Sprite Sprite)
         {
