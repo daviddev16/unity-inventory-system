@@ -1,4 +1,4 @@
-﻿namespace InventorySystem
+﻿namespace InventorySystem.Internals
 {
     [System.Serializable]
     public struct ItemStackHandlerInfo : System.ICloneable

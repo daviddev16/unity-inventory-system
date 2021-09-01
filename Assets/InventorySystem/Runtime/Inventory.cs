@@ -38,10 +38,10 @@ namespace InventorySystem
 
         private void Update()
         {
-            
-            if(Input.GetKeyDown(KeyCode.K))
+
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                AddItemStack(RegisteredItemStacks[2]);
+                AddItemStack(RegisteredItemStacks[UnityEngine.Random.Range(0, RegisteredItemStacks.Length)]);
             }
         }
 
@@ -53,64 +53,18 @@ namespace InventorySystem
             }
         }
 
-        private void IterateSlotsByFunction(Func<Slot, int, bool> orderedSlot)
-        {
-            int SlotIndex = 0;
-            bool breakContainersLoop = false;
-            foreach (Container container in containers)
-            {
-                if (breakContainersLoop)
-                {
-                    break;
-                }
-                foreach (Slot Slot in container.Slots)
-                {
-                    if (orderedSlot.Invoke(Slot, SlotIndex))
-                    {
-                        breakContainersLoop = true;
-                        break;
-                    }
-                    SlotIndex++;
-                }
-            }
-        }
-
-        private void IterateSlots(Action<Slot, int> orderedSlot)
-        {
-            IterateSlotsByFunction((Slot, SlotIndex) =>
-            {
-                orderedSlot.Invoke(Slot, SlotIndex); return false;
-            });
-        }
-
-        private ItemStackHandler FindItemStackHandler(ItemStack itemStack)
-        {
-            ItemStackHandler handler = null;
-            IterateSlotsByFunction((Slot, SlotIndex) =>
-            {
-                if (Slot.ContainsItem(itemStack))
-                {
-                    handler = Slot.GetItemHandler();
-                    return false;
-                }
-                return true;
-            });
-
-            return handler;
-        }
-
         public void RemoveItemStack(ItemStack itemStack)
         {
-            ItemStackHandler ItemStackHandler = FindItemStackHandler(itemStack);
-            if (ItemStackHandler != null)
+            ItemStackHandler ItemHandler = null;
+            if (ContainsItem(itemStack, out ItemHandler))
             {
-                if (ItemStackHandler.GetItemStack().Stackable)
+                if (itemStack.Stackable)
                 {
-                    ItemStackHandler.ChangeAmount(false, 1);
+                    ItemHandler.ChangeAmount(false, 1);
                 }
                 else
                 {
-                    ItemStackHandler.SelfPurge();
+                    ItemHandler.SelfPurge();
                 }
             }
         }
@@ -123,46 +77,81 @@ namespace InventorySystem
             }
         }
 
-        public void AddItemStack(ItemStack itemStack)
+        public bool ContainsItem(ItemStack itemStack, out ItemStackHandler ItemHandler)
         {
-            IterateSlotsByFunction((Slot, SlotIndex) =>
+            foreach (Container container in containers)
             {
-                ItemStackHandler ItemStackHandler = Slot.GetItemHandler();
-
-                if (ItemStackHandler != null)
+                foreach (Slot Slot in container.Slots)
                 {
-                    if (ItemStackHandler.IsSimilar(itemStack) && ItemStackHandler.IsFree())
+                    if (Slot.GetItemHandler() != null && Slot.GetItemHandler().IsSimilar(itemStack))
                     {
-                        ItemStackHandler.ChangeAmount(true, 1);
+                        ItemHandler = Slot.GetItemHandler();
                         return true;
-
                     }
                 }
-                else if (Slot.IsEmpty())
-                {
-                    Slot.Populate(itemStack, 1);
-                    return true;
-                }
+            }
 
-                /*just skip to the next slot*/
-                return false;
-            });
+            ItemHandler = null;
+
+            return false;
+        }
+
+        public void AddItemStack(ItemStack itemStack)
+        {
+            ItemStackHandler ItemHandler = null;
+            if (itemStack.Stackable)
+            {
+                if (ContainsItem(itemStack, out ItemHandler))
+                {
+                    ItemHandler.ChangeAmount(true, 1);
+                    return;
+                }
+                else
+                {
+                    foreach (Container container in containers)
+                    {
+                        foreach (Slot Slot in container.Slots)
+                        {
+                            if (Slot.IsEmpty() && Slot.CanReceive(itemStack))
+                            {
+                                Slot.Populate(itemStack, 1);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            else
+            {
+                foreach (Container container in containers)
+                {
+                    foreach (Slot Slot in container.Slots)
+                    {
+                        if (Slot.IsEmpty())
+                        {
+                            Slot.Populate(itemStack, 1);
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         public bool IsFull()
         {
-            bool IsFull = true;
-            IterateSlotsByFunction((Slot, SlotIndex) =>
-            {
-                if (Slot.IsEmpty())
-                {
-                    IsFull = false;
-                    return true;
-                }
 
-                return false;
-            });
-            return IsFull;
+            foreach (Container container in containers)
+            {
+                foreach (Slot Slot in container.Slots)
+                {
+                    if (Slot.IsEmpty())
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private void SetupContainersFromChildren()
@@ -171,12 +160,20 @@ namespace InventorySystem
             {
                 containers.Add(container);
             }
-            containers.Sort(new ContainerComparer());
+            containers.Sort(ContainerComparer.CONTAINER_COMPARER);
         }
 
         private void RenameAllSlots()
         {
-            IterateSlots((Slot, SlotIndex) => Slot.RenameSlot(ref SlotIndex));
+            int SlotIndex = 0;
+            foreach (Container container in containers)
+            {
+                foreach (Slot Slot in container.Slots)
+                {
+                    SlotIndex++;
+                    Slot.RenameSlot(SlotIndex);
+                }
+            }
         }
     }
 }

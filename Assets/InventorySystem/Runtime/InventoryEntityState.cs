@@ -1,7 +1,8 @@
-﻿namespace InventorySystem
+﻿namespace InventorySystem.Internals
 {
     public interface InventoryEntityState
     {
-        void UpdateStage();
+        /** used for revalidate states */
+        void UpdateEntity();
     }
 }

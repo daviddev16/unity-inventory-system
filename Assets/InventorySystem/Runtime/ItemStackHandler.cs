@@ -1,91 +1,123 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using InventorySystem.Internals;
 
 namespace InventorySystem
 {
-    public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, InventoryEntityState, 
+    public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, InventoryEntityState,
         IDragHandler, IEndDragHandler, IBeginDragHandler
     {
+
         private ItemStackHandlerInfo ItemInfo;
-        public Slot ParentSlot;
-
-        private Vector2 beginPos;
-
-        public void UpdateHandlerInfo(ItemStack itemStack, int amount)
-        {
-            ItemInfo = new ItemStackHandlerInfo(itemStack, amount);
-            UpdateStage();
-        }
-        
-        public void ChangeAmount(bool increase, int value)
-        {
-            if (increase) { ItemInfo.Amount += value; }
-            else { ItemInfo.Amount -= value; }
-            UpdateStage();
-        }
-
-        public bool IsFree()
-        {
-            return (GetItemStack().Stackable);
-        }
-
-        public void SetHandlerInfo(ItemStackHandlerInfo ItemInfo)
-        {
-            this.ItemInfo = ItemInfo;
-            UpdateStage();
-        }
-
-        public void UpdateStage()
-        {
-            if (!CheckAmount())
-            {
-                SelfPurge();
-            }
-
-            ParentSlot = GetComponentInParent<Slot>();
-            GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
-            GetComponent<Image>().sprite = GetItemStack().Sprite;
-            gameObject.name = GetItemStack().Name;
-        }
-
-        public void ResolveTransform()
-        {
-            GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        }
+        private Slot ParentSlot;
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            beginPos = eventData.position;
+            GetComponent<Image>().raycastTarget = false;
             transform.SetParent(GetComponentInParent<Inventory>().transform);
-            transform.SetAsFirstSibling();
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            InventoryEntityState EntityState = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryEntityState>();
-
-            if (EntityState != null)
-            {
-                if (EntityState is Slot)
-                {
-                    (EntityState as Slot).Migrate(this);
-                }
-                else if (EntityState is ItemStackHandler)
-                {
-                    Slot OtherItemSlot = (EntityState as ItemStackHandler).ParentSlot;
-                    ParentSlot.SwitchItemsBySlots(OtherItemSlot);
-                }
-            }
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
+            transform.SetAsLastSibling();
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             transform.position = new Vector3(eventData.position.x, eventData.position.y, 0);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            GetComponent<Image>().raycastTarget = true;
+            GameObject raycastTargetGameObject = eventData.pointerCurrentRaycast.gameObject;
+            if (raycastTargetGameObject != null)
+            {
+                InventoryEntityState entityState = raycastTargetGameObject.GetComponent<InventoryEntityState>();
+                if (entityState != null && Move(ref entityState))
+                {
+                    return;
+                }
+            }
+            /* back to the origin */
+            transform.SetParent(ParentSlot.transform);
+            ResolveTransform();
+        }
+
+        private bool Move(ref InventoryEntityState entityState)
+        {
+            if (entityState is Slot && (entityState as Slot).IsEmpty())
+            {
+                if ((entityState as Slot).CanReceive(GetItemStack()))
+                {
+                    MigrateToSlot(entityState as Slot);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (entityState is ItemStackHandler)
+            {
+                ChangeWithItemHandler(entityState as ItemStackHandler);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ChangeWithItemHandler(ItemStackHandler ItemHandler)
+        {
+            Slot PreviousSlot = ParentSlot;
+
+            transform.SetParent(ItemHandler.ParentSlot.transform);
+            ItemHandler.transform.SetParent(PreviousSlot.transform);
+
+            ResolveTransform();
+            ItemHandler.ResolveTransform();
+
+            ItemHandler.UpdateEntity();
+            PreviousSlot.UpdateEntity();
+            UpdateEntity();
+            ParentSlot.UpdateEntity();
+        }
+
+        private void MigrateToSlot(Slot Slot)
+        {
+            Slot PreviousSlot = ParentSlot;
+
+            transform.SetParent(Slot.transform);
+            ResolveTransform();
+
+            UpdateEntity();
+            PreviousSlot.UpdateEntity();
+            Slot.UpdateEntity();
+        }
+
+        public void ChangeAmount(bool increase, int value)
+        {
+            if (increase) { ItemInfo.Amount += value; }
+            else { ItemInfo.Amount -= value; }
+            UpdateEntity();
+        }
+
+        public void UpdateEntity()
+        {
+            if (ItemInfo.Amount <= 0)
+            {
+                SelfPurge();
+            }
+
+            ParentSlot = GetComponentInParent<Slot>();
+
+            GetComponentInChildren<Text>().text = "" + ItemInfo.Amount;
+            GetComponent<Image>().sprite = GetItemStack().Sprite;
+            gameObject.name = GetItemStack().Name;
+        }
+
+
+
+        public void SetInformation(ItemStackHandlerInfo ItemInfo)
+        {
+            this.ItemInfo = ItemInfo;
         }
 
         public bool IsSimilar(ItemStack ItemStack)
@@ -98,14 +130,9 @@ namespace InventorySystem
             return IsSimilar(ItemStackHandler.GetItemStack());
         }
 
-        public void SetSlotParent(Slot Slot)
+        public void ResolveTransform()
         {
-            transform.SetParent(Slot.transform);
-        }
-        
-        public ItemStackHandlerInfo CopyInformation()
-        {
-            return (ItemStackHandlerInfo) ItemInfo.Clone();
+            GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
 
         public ItemStack GetItemStack()
@@ -117,16 +144,5 @@ namespace InventorySystem
         {
             Destroy(gameObject);
         }
-
-        private bool CheckAmount()
-        {
-            if (ItemInfo.Amount <= 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
     }
 }

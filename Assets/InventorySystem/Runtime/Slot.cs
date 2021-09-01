@@ -1,84 +1,46 @@
 ﻿using UnityEngine;
+using InventorySystem.Internals;
 
 namespace InventorySystem
 {
-    public class Slot : MonoBehaviour, InventoryEntityState
+    public class Slot : MonoBehaviour, InventoryEntityState, IReceivable
     {
         [SerializeField]
-        private ItemStackHandler ItemStackHandler;
+        private ItemStackHandler ItemHandler;
 
         /* create the item inside the slot */
-        public void Populate(ItemStack ItemStack, int amount)
+        public void Populate(ItemStack itemStack, int initialAmount)
         {
-            ItemStackHandler = Instantiate(Inventory.GetInventory().ItemStackHandlerAsset,
+            ItemHandler = Instantiate(Inventory.GetInventory().ItemStackHandlerAsset,
                 transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
-            ItemStackHandler.UpdateHandlerInfo(ItemStack, amount);
-            Setup(ItemStackHandler);
+            ItemHandler.SetInformation(new ItemStackHandlerInfo(itemStack, initialAmount));
+
+            ItemHandler.transform.SetParent(transform);
+            ItemHandler.ResolveTransform();
+            ItemHandler.UpdateEntity();
+            
+            UpdateEntity();
         }
 
-        public bool ContainsItem(ItemStack ItemStack)
+        public void UpdateEntity()
         {
-            return GetItemHandler() != null && GetItemHandler().IsSimilar(ItemStack);
+            ItemHandler = GetComponentInChildren<ItemStackHandler>();
         }
 
-        public ItemStackHandler GetItemHandler()
+        public virtual bool CanReceive(ItemStack itemStack)
         {
-            return ItemStackHandler;
-        }
-
-        internal protected void RenameSlot(ref int SlotIndex)
-        {
-            gameObject.name = "Slot " + SlotIndex;
+            return true;
         }
 
         public bool IsEmpty()
         {
-            return ItemStackHandler == null;
+            return ItemHandler == null;
         }
 
-        public void UpdateState()
+        public ItemStackHandler GetItemHandler()
         {
-            ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
-        }
-
-        internal void Migrate(ItemStackHandler itemStackHandler)
-        {
-            Slot PreviousSlot = itemStackHandler.ParentSlot;
-            if (IsEmpty())
-            {
-                Setup(itemStackHandler);
-                UpdateSelfStageAnd(PreviousSlot);
-            }
-        }
-
-        public void SwitchItemsBySlots(Slot Slot)
-        {
-            if (Slot.ItemStackHandler != null && ItemStackHandler != null)
-            {
-                Slot.Setup(ItemStackHandler);
-                Setup(Slot.ItemStackHandler);
-
-                UpdateSelfStageAnd(Slot);
-            }
-        }
-
-        private void UpdateSelfStageAnd(Slot Slot)
-        {
-            Slot.UpdateStage();
-            UpdateStage();
-        }
-
-        public void Setup(ItemStackHandler Handler)
-        {
-            Handler.SetSlotParent(this);
-            Handler.ResolveTransform();
-            Handler.UpdateStage();
-        }
-
-        public void UpdateStage()
-        {
-            ItemStackHandler = GetComponentInChildren<ItemStackHandler>();
+            return ItemHandler;
         }
     }
 }
