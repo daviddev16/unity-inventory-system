@@ -79,16 +79,16 @@ namespace InventorySystem
             ParentSlot.UpdateEntity();
         }
 
-        private void MigrateToSlot(Slot Slot)
+        private void MigrateToSlot(Slot slot)
         {
             Slot PreviousSlot = ParentSlot;
 
-            transform.SetParent(Slot.transform);
+            transform.SetParent(slot.transform);
             ResolveTransform();
 
             UpdateEntity();
             PreviousSlot.UpdateEntity();
-            Slot.UpdateEntity();
+            slot.UpdateEntity();
         }
 
         public void ChangeAmount(bool increase, int value)
@@ -136,9 +136,9 @@ namespace InventorySystem
             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         }
 
-        public void SetInformation(ItemStackHandlerInfo ItemInfo)
+        public void SetInformation(ItemStackHandlerInfo itemInfo)
         {
-            this.ItemInfo = ItemInfo;
+            this.ItemInfo = itemInfo;
         }
 
         public ItemStack GetItemStack()

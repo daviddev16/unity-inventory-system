@@ -204,7 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &83694033
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -294,7 +293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &127949282
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -384,7 +382,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &164820443
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -474,7 +471,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &173931561
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -564,7 +560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &179823775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -710,7 +705,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &242677600
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -800,7 +794,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &260117009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -890,7 +883,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &262474399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -980,7 +972,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &292456961
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1070,7 +1061,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &318106428
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1160,7 +1150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &369937915
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1250,7 +1239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &394684729
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1340,7 +1328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &400308351
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1430,7 +1417,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &404222869
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1520,7 +1506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &466819991
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1610,7 +1595,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &500027855
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1674,13 +1658,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containers: []
   ItemStackHandlerAsset: {fileID: 9219022818838696467, guid: 0bcfa958934858c4fb68c13a269dbf2a, type: 3}
-  RegisteredItemStacks:
-  - {fileID: 11400000, guid: d8b820e144ded08458704986ff69cdb3, type: 2}
-  - {fileID: 11400000, guid: f47fe5dba6ccd5d48a6942c10b4547fa, type: 2}
-  - {fileID: 11400000, guid: 93c3242836163f94e9413ea7c51072b4, type: 2}
-  - {fileID: 11400000, guid: 90c6b0040f9a4274084892ca158582df, type: 2}
-  - {fileID: 11400000, guid: ef254c2398f37b7438089bd5cb2f657e, type: 2}
-  - {fileID: 11400000, guid: 0200c18a5f559c64daa12157825e3818, type: 2}
+  RegisteredItemStack:
+  - ID: 0
+    Name: Carne
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -5552539995904516628, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 1
+    Name: Leite
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -7027169080181160037, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 2
+    Name: Berinbela
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 1800041386515008086, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 3
+    Name: Ovo
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 6718779676121599076, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
 --- !u!114 &517953145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,7 +1881,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &603274688
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1973,7 +1970,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &615789103
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2198,7 +2194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &641493988
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2288,7 +2283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &696619438
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2378,7 +2372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &715240196
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2468,7 +2461,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &729842724
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2558,7 +2550,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &820509573
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2793,7 +2784,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &859636023
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2883,7 +2873,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &895124339
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2943,7 +2932,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &955923423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3063,7 +3051,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &993156175
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3153,7 +3140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 0
 --- !u!222 &1014465174
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3243,7 +3229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1074349762
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3333,7 +3318,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1150032459
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3423,7 +3407,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1239538858
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3513,7 +3496,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1270433120
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3603,7 +3585,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1272104654
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3693,7 +3674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1293754566
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3783,7 +3763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1294544862
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3873,7 +3852,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1306096878
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4076,7 +4054,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1374469913
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4166,7 +4143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1422041001
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4256,7 +4232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1499077686
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4346,7 +4321,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1616758737
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4436,7 +4410,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1715078787
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4526,7 +4499,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1728010732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4616,7 +4588,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1754733618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4706,7 +4677,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1761355231
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4947,7 +4917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1788773230
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5037,7 +5006,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1855915376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5127,7 +5095,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &1936617790
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5217,7 +5184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &2040753478
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5373,7 +5339,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &2094447417
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5463,7 +5428,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemHandler: {fileID: 0}
-  DoNotReceiveAnyThing: 1
 --- !u!222 &2134211568
 CanvasRenderer:
   m_ObjectHideFlags: 0
