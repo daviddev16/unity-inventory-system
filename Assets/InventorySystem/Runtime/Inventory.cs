@@ -2,28 +2,26 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace InventorySystem
+namespace InventorySys
 {
     public sealed class Inventory : MonoBehaviour
     {
-        private static Inventory Instance;
+        private static Inventory InventoryInstance;
 
         [SerializeField] private List<Container> containers;
-        public GameObject ItemStackHandlerAsset;
-
-        [SerializeField]
-        private ItemStack[] RegisteredItemStack;
+        public GameObject ItemAsset;
+        [SerializeField] public float DragSpeed { get; set; } = 2f;
 
         public static Inventory GetInventory()
         {
-            return Instance;
+            return InventoryInstance;
         }
 
         private void Awake()
         {
-            if (Instance == null)
+            if (InventoryInstance == null)
             {
-                Instance = this;
+                InventoryInstance = this;
             }
             else
             {
@@ -32,14 +30,6 @@ namespace InventorySystem
 
             SetupContainersFromChildren();
             RenameAllSlots();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                AddItemStack(RegisteredItemStack[UnityEngine.Random.Range(0, RegisteredItemStack.Length)]);
-            }
         }
 
         public void RemoveItemStack(ItemStack itemStack)
@@ -64,6 +54,30 @@ namespace InventorySystem
             {
                 AddItemStack(itemStack);
             }
+        }
+
+        public void Set(Internals.ItemStackHandlerInfo information, Slot slot)
+        {
+            if(slot != null)
+            {
+                slot.Set(information);
+            }
+        }
+
+
+        public bool ContainsItem(ItemStack itemStack)
+        {
+            foreach (Container container in containers)
+            {
+                foreach (Slot Slot in container.Slots)
+                {
+                    if (Slot.GetItemHandler() != null && Slot.GetItemHandler().IsSimilar(itemStack, ItemStack.HIGH_LEVEL_COMPARISON))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool ContainsItem(ItemStack itemStack, out ItemStackHandler ItemHandler)
@@ -123,7 +137,6 @@ namespace InventorySystem
             }
             else
             {
-
                 IterateSlots(Slot =>
                 {
                     if (Slot.IsEmpty())
@@ -155,9 +168,26 @@ namespace InventorySystem
         {
             foreach (Container container in GetComponentsInChildren<Container>())
             {
-                containers.Add(container);
+                if (container.IsExcluded())
+                {
+                    containers.Add(container);
+                }
             }
             containers.Sort(Internals.ContainerComparer.CONTAINER_COMPARER);
+        }
+
+        public Slot GetSlot(int slotIndex)
+        {
+            Slot SelectedSlot = null;
+            IterateSlots((Slot) => {
+                if(Slot.SlotIndex == slotIndex)
+                {
+                    SelectedSlot = Slot;
+                    return true;
+                }
+                return false;
+            });
+            return SelectedSlot;
         }
 
         private void RenameAllSlots()
@@ -167,8 +197,9 @@ namespace InventorySystem
             {
                 foreach (Slot Slot in container.Slots)
                 {
-                    SlotIndex++;
                     Slot.gameObject.name = "Slot " + SlotIndex;
+                    Slot.SlotIndex = SlotIndex;
+                    SlotIndex++;
                 }
             }
         }

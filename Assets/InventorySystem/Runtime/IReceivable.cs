@@ -1,4 +1,4 @@
-﻿namespace InventorySystem.Internals
+﻿namespace InventorySys.Internals
 {
     public interface IReceivable
     {

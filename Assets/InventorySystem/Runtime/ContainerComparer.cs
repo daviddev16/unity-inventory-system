@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace InventorySystem.Internals
+namespace InventorySys.Internals
 {
     public sealed class ContainerComparer : IComparer<Container>
     {

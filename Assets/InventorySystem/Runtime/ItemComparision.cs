@@ -1,4 +1,4 @@
-﻿namespace InventorySystem
+﻿namespace InventorySys
 {
     public interface ItemComparision
     {

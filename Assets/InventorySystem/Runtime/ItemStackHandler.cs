@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using InventorySystem.Internals;
 
-namespace InventorySystem
+namespace InventorySys
 {
+    using Internals;
     public sealed class ItemStackHandler : MonoBehaviour, ItemComparision, InventoryEntityState,
         IDragHandler, IEndDragHandler, IBeginDragHandler
     {

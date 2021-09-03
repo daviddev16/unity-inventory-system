@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InventorySystem
+namespace InventorySys
 {
     [System.Serializable]
     public class ItemStack

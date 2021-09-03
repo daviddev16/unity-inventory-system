@@ -1,19 +1,36 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace InventorySystem
+namespace InventorySys
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class Container : MonoBehaviour
     {
         public Inventory Owner { protected set; get; }
 
-        [SerializeField] public List<Slot> Slots { protected set; get; }
+        public List<Slot> Slots { protected set; get; }
+
+        [SerializeField] private bool Exclude = true;
         [SerializeField] private int Order = 0;
+        [SerializeField] private bool SetupChildrens = true;
 
         private void Awake()
         {
+            GetComponent<CanvasGroup>().ignoreParentGroups = true;
+            GetComponent<Image>().raycastTarget = false;
+
             Slots = new List<Slot>();
-            SetupSlotsFromChildren();
+            
+            if (SetupChildrens)
+            {
+                SetupSlotsFromChildren();
+            }
+        }
+
+        private void SetupSlotsFromChildren()
+        {
+            foreach (Slot Slot in GetComponentsInChildren<Slot>()) Slots.Add(Slot);
         }
 
         public int GetOrder()
@@ -21,9 +38,9 @@ namespace InventorySystem
             return Order;
         }
 
-        private void SetupSlotsFromChildren()
+        public bool IsExcluded()
         {
-            foreach (Slot Slot in GetComponentsInChildren<Slot>()) Slots.Add(Slot);
+            return Exclude;
         }
     }
 }

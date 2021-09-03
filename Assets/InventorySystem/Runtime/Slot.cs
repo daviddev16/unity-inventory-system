@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
-using InventorySystem.Internals;
 
-namespace InventorySystem
+namespace InventorySys
 {
+    using Internals;
     public class Slot : MonoBehaviour, InventoryEntityState, IReceivable
     {
-        [SerializeField]
         private ItemStackHandler ItemHandler;
+        public int SlotIndex = -1;
 
         /* create the item inside the slot */
         public void Populate(ItemStack itemStack, int initialAmount)
         {
-            ItemHandler = Instantiate(Inventory.GetInventory().ItemStackHandlerAsset,
+            ItemHandler = Instantiate(Inventory.GetInventory().ItemAsset,
                 transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
             ItemHandler.SetInformation(new ItemStackHandlerInfo(itemStack, initialAmount));
@@ -26,7 +26,7 @@ namespace InventorySystem
         public void Set(ItemStackHandlerInfo ItemInfo)
         {
             ClearIfNecessary();
-            ItemHandler = Instantiate(Inventory.GetInventory().ItemStackHandlerAsset,
+            ItemHandler = Instantiate(Inventory.GetInventory().ItemAsset,
                 transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
             ItemHandler.SetInformation(ItemInfo);
