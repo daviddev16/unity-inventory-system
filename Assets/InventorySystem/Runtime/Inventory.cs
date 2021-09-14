@@ -64,7 +64,6 @@ namespace InventorySys
             }
         }
 
-
         public bool ContainsItem(ItemStack itemStack)
         {
             foreach (Container container in containers)
@@ -98,7 +97,7 @@ namespace InventorySys
             return false;
         }
 
-        public void IterateSlots(Func<Slot, bool> SlotFunc)
+        private void IterateSlots(Func<Slot, bool> SlotFunc)
         {
             foreach (Container container in containers)
             {
@@ -168,7 +167,7 @@ namespace InventorySys
         {
             foreach (Container container in GetComponentsInChildren<Container>())
             {
-                if (container.IsExcluded())
+                if (!container.IsExcluded())
                 {
                     containers.Add(container);
                 }

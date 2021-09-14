@@ -12,8 +12,8 @@ namespace InventorySys
         public List<Slot> Slots { protected set; get; }
 
         [SerializeField] private bool Exclude = true;
-        [SerializeField] private int Order = 0;
         [SerializeField] private bool SetupChildrens = true;
+        [SerializeField] private int Order = 0;
 
         private void Awake()
         {

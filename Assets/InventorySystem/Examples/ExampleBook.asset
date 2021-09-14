@@ -18,3 +18,73 @@ MonoBehaviour:
     Data: 0
     Stackable: 1
     Sprite: {fileID: -7027169080181160037, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 1
+    Name: Vine
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 664839572984902073, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 2
+    Name: Steak
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -5552539995904516628, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 3
+    Name: French Fries
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -5646102037538044414, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 4
+    Name: Pumpkin
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -5876938286011822343, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 5
+    Name: Pizza
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -7681167876041445290, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 6
+    Name: Tomato
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 8477925976642166352, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 7
+    Name: Fish
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -3202136107536500834, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 8
+    Name: Soup
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -1022932468765483513, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 9
+    Name: Chocolate
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -970179368045749789, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 10
+    Name: Blue Berry
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -3181635128849177650, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 11
+    Name: Potion
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -7521213124211728421, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 12
+    Name: Watermelon
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: -6630468772135227950, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 13
+    Name: Cofee
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 8276691268729652407, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}
+  - ID: 14
+    Name: Popcorn
+    Data: 0
+    Stackable: 1
+    Sprite: {fileID: 6026532090581022792, guid: 82e149b238f91ee49a7ba49a6f7c7258, type: 3}

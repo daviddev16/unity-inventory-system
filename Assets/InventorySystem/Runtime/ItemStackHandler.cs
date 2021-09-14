@@ -56,8 +56,16 @@ namespace InventorySys
             }
             else if (entityState is ItemStackHandler)
             {
-                ChangeWithItemHandler(entityState as ItemStackHandler);
-                return true;
+                if((entityState as ItemStackHandler).ParentSlot.CanReceive(GetItemStack()) &&
+                    ParentSlot.CanReceive((entityState as ItemStackHandler).GetItemStack()))
+                {
+                    ChangeWithItemHandler(entityState as ItemStackHandler);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             return false;
