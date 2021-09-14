@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace InventorySys
 {
@@ -6,36 +7,53 @@ namespace InventorySys
     public class Slot : MonoBehaviour, InventoryEntityState, IReceivable
     {
         private ItemStackHandler ItemHandler;
+        private List<ASlotTracker> Trackers;
+
+        public bool Trackable = false;
         public int SlotIndex = -1;
+
+        private void Awake()
+        {
+            if(Trackable)
+            {
+                Trackers = new List<ASlotTracker>();
+            }
+        }
 
         /* create the item inside the slot */
         public void Populate(ItemStack itemStack, int initialAmount)
         {
-            ItemHandler = Instantiate(Inventory.GetInventory().ItemAsset,
-                transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
-
-            ItemHandler.SetInformation(new ItemStackHandlerInfo(itemStack, initialAmount));
-
-            ItemHandler.transform.SetParent(transform);
-            ItemHandler.ResolveTransform();
-            ItemHandler.UpdateEntity();
-            
+            CreateItemHandler(new ItemStackHandlerInfo(itemStack, initialAmount));
+            /* update state and trigger events */
             UpdateEntity();
+            Received(itemStack);
         }
-        
-        public void Set(ItemStackHandlerInfo ItemInfo)
+
+        public bool Set(ItemStackHandlerInfo itemInfo)
         {
-            ClearIfNecessary();
+            if(CanReceive(itemInfo.ItemStack))
+            {
+                ClearIfNecessary();
+                CreateItemHandler(itemInfo);
+                
+                /* update state and trigger events */
+                UpdateEntity();
+                Received(itemInfo.ItemStack);
+                return true;
+            }
+            return false;
+        }
+
+        private void CreateItemHandler(ItemStackHandlerInfo itemInfo)
+        {
             ItemHandler = Instantiate(Inventory.GetInventory().ItemAsset,
-                transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
+                    transform.position, Quaternion.identity).GetComponent<ItemStackHandler>();
 
-            ItemHandler.SetInformation(ItemInfo);
-
+            /* setup itemHandler */
+            ItemHandler.SetInformation(itemInfo);
             ItemHandler.transform.SetParent(transform);
             ItemHandler.ResolveTransform();
             ItemHandler.UpdateEntity();
-
-            UpdateEntity();
         }
 
         public void UpdateEntity()
@@ -43,15 +61,10 @@ namespace InventorySys
             ItemHandler = GetComponentInChildren<ItemStackHandler>();
         }
 
-        /* slot filter*/
-        public virtual bool CanReceive(ItemStack itemStack)
-        {
-            return true;
-        }
-
+        /* clear completely the current item if exists.*/
         private void ClearIfNecessary()
         {
-            if (ItemHandler != null)
+            if(ItemHandler != null)
             {
                 ItemHandler.SelfPurge();
                 UpdateEntity();
@@ -67,5 +80,35 @@ namespace InventorySys
         {
             return ItemHandler;
         }
+
+        /* add a new trigger */
+        public void AddTracker(ASlotTracker tracker)
+        {
+            if(!Trackable)
+            {
+                Debug.LogWarning("This slot is not trackable.");
+                return;
+            }
+            Trackers.Add(tracker);
+        }
+
+        public void Received(ItemStack itemStack)
+        {
+            if(!Trackable && Trackers != null) return;
+            
+            Trackers.ForEach(Tracker => 
+                    Tracker.OnTrackStateEvent(new TrackEvent(this, itemStack)));
+        }
+
+        public void Absent()
+        {
+            if(!Trackable && Trackers != null) return;
+
+            Trackers.ForEach(Tracker => 
+                    Tracker.OnTrackStateEvent(new TrackEvent(this, null)));
+        }
+
+        public virtual bool CanReceive(ItemStack itemStack) { return true; }
+
     }
 }

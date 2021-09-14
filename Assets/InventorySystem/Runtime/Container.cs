@@ -30,7 +30,7 @@ namespace InventorySys
 
         private void SetupSlotsFromChildren()
         {
-            foreach (Slot Slot in GetComponentsInChildren<Slot>()) Slots.Add(Slot);
+            foreach (Slot Slot in GetComponentInChildren<SlotGroup>().GetComponentsInChildren<Slot>()) Slots.Add(Slot);
         }
 
         public int GetOrder()

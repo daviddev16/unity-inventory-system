@@ -20,6 +20,7 @@ namespace InventorySys
 
         public void OnDrag(PointerEventData eventData)
         {
+            /* drag  item to the mouse position */
             transform.position = new Vector3(eventData.position.x, eventData.position.y, 0);
         }
 
@@ -50,41 +51,43 @@ namespace InventorySys
                     return true;
                 }
                 else
-                {
                     return false;
-                }
             }
             else if (entityState is ItemStackHandler)
             {
                 if((entityState as ItemStackHandler).ParentSlot.CanReceive(GetItemStack()) &&
                     ParentSlot.CanReceive((entityState as ItemStackHandler).GetItemStack()))
                 {
-                    ChangeWithItemHandler(entityState as ItemStackHandler);
+                    MigrtateToItemHandlerSlot(entityState as ItemStackHandler);
                     return true;
                 }
                 else
-                {
                     return false;
-                }
             }
-
             return false;
         }
 
-        private void ChangeWithItemHandler(ItemStackHandler ItemHandler)
+        private void MigrtateToItemHandlerSlot(ItemStackHandler itemHandler)
         {
             Slot PreviousSlot = ParentSlot;
 
-            transform.SetParent(ItemHandler.ParentSlot.transform);
-            ItemHandler.transform.SetParent(PreviousSlot.transform);
-
+            /* set each transform */
+            transform.SetParent(itemHandler.ParentSlot.transform);
+            itemHandler.transform.SetParent(PreviousSlot.transform);
             ResolveTransform();
-            ItemHandler.ResolveTransform();
+            itemHandler.ResolveTransform();
 
-            ItemHandler.UpdateEntity();
-            PreviousSlot.UpdateEntity();
+            /* update items state */
+            itemHandler.UpdateEntity();
             UpdateEntity();
+
+            /* update slot state */
             ParentSlot.UpdateEntity();
+            PreviousSlot.UpdateEntity();
+
+            /* trigger events */
+            ParentSlot.Received(GetItemStack());
+            PreviousSlot.Received(itemHandler.GetItemStack());
         }
 
         private void MigrateToSlot(Slot slot)
@@ -94,9 +97,16 @@ namespace InventorySys
             transform.SetParent(slot.transform);
             ResolveTransform();
 
+            /* update item state */
             UpdateEntity();
+            
+            /* update slots state */
             PreviousSlot.UpdateEntity();
             slot.UpdateEntity();
+
+            /* trigger events */
+            slot.Received(GetItemStack());
+            PreviousSlot.Absent();
         }
 
         public void ChangeAmount(bool increase, int value)
@@ -139,6 +149,7 @@ namespace InventorySys
             return IsSimilar(itemHandler.GetItemStack(), comparisonLevel);
         }
 
+        /* set the anchor point to the center */
         public void ResolveTransform()
         {
             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;

@@ -5,7 +5,8 @@ using UnityEngine;
 namespace InventorySys
 {
     using Internals;
-    public partial class InventorySystem : MonoBehaviour
+    [RequireComponent(typeof(Inventory))]
+    public class InventorySystem : MonoBehaviour
     {
         [SerializeField] private InventoryBook InventoryBook;
 
