@@ -5,6 +5,8 @@ using InventorySys;
 class InventorySystemEditor : EditorWindow
 {
 
+    readonly string[] PRESET_NAMES = { "#1 Survival! Inventory", "#2 Going_Crazy! Inventory", "#3 Touchpad! Inventory" };
+
     Inventory inventory;
     ContainerType containerType;
 
@@ -24,8 +26,8 @@ class InventorySystemEditor : EditorWindow
             {
                 GUILayout.Label("Handled inventory: Canvas -> " + inventory.name);
                 EditorGUILayout.Separator();
-                GUILayout.Label("New Container...");
                 GUILayout.BeginVertical();
+                GUILayout.Label("New Container...");
                 containerType = (ContainerType)EditorGUILayout.EnumPopup("Type: ", containerType);
 
                 if(GUILayout.Button("Create Container"))
@@ -35,15 +37,50 @@ class InventorySystemEditor : EditorWindow
                         Debug.Log("New container added.");
                     }
                 }
+
+                if(GUILayout.Button("Create Slot"))
+                {
+                    GameObject selectedObject = Selection.activeGameObject;
+                    if(selectedObject != null && selectedObject.GetComponent<SlotGroup>() != null)
+                    {
+                        if(CreateNewSlot(selectedObject.GetComponent<SlotGroup>()))
+                        {
+                            Debug.Log("Slot added.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("You need to select a SlotGroup gameObject before.");
+                    }
+                }
+
                 GUILayout.EndVertical();
             }
-            else if(GUILayout.Button("Create Inventory..."))
+            else
             {
-                if(CreateNewInventory(canvas))
+                if(GUILayout.Button("Create Inventory..."))
                 {
-                    Debug.Log("Inventory created.");
+                    if(CreateNewInventory(canvas))
+                    {
+                        Debug.Log("Inventory created.");
+                    }
+                    return;
                 }
-                return;
+
+                EditorGUILayout.Separator();
+                GUILayout.Label("Create by preset: ");
+                for(int i = 0; i < PRESET_NAMES.Length; i++)
+                {
+                    if(GUILayout.Button(PRESET_NAMES[i] + "..."))
+                    {
+                        if(CreateNewInventoryPreset(canvas, i))
+                        {
+                            Debug.Log("Preset created.");
+                        }
+                        return;
+                    }
+                }
+
             }
         }
         else
@@ -55,6 +92,22 @@ class InventorySystemEditor : EditorWindow
     GameObject GetSystemPrefab(string name)
     {
         return AssetDatabase.LoadAssetAtPath("Assets/InventorySystem/Prefabs/"+name+".prefab", typeof(GameObject)) as GameObject;
+    }
+
+    bool CreateNewSlot(SlotGroup slotGroup)
+    {
+        GameObject slotInstance = Instantiate(GetSystemPrefab("NewSlot"), Vector3.zero, Quaternion.identity, slotGroup.transform);
+        slotInstance.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        slotInstance.name = "Slot";
+        return slotInstance != null;
+    }
+
+    bool CreateNewInventoryPreset(Canvas canvas, int num)
+    {
+        GameObject inventoryInstance = Instantiate(GetSystemPrefab("InventoryPreset" + (num + 1)), Vector3.zero, Quaternion.identity, canvas.transform);
+        inventoryInstance.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        inventoryInstance.name = PRESET_NAMES[num];
+        return inventoryInstance != null;
     }
 
     bool CreateNewContainer(Inventory inventory)
