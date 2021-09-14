@@ -94,7 +94,7 @@ namespace InventorySys
 
         public void Received(ItemStack itemStack)
         {
-            if(!Trackable && Trackers != null) return;
+            if(!Trackable && Trackers == null) return;
             
             Trackers.ForEach(Tracker => 
                     Tracker.OnTrackStateEvent(new TrackEvent(this, itemStack)));
@@ -102,7 +102,7 @@ namespace InventorySys
 
         public void Absent()
         {
-            if(!Trackable && Trackers != null) return;
+            if(!Trackable && Trackers == null) return;
 
             Trackers.ForEach(Tracker => 
                     Tracker.OnTrackStateEvent(new TrackEvent(this, null)));

@@ -5,13 +5,10 @@
         void Start()
         {
             AddAllSamples();
-            Set("Milk", 20, 2000);
+            Set("Milk", 20, 20);
 
             Inventory.GetInventory().GetSlot(10).AddTracker(new DebugSlotTracker());
 
         }
     }
-
-   
-
 }

@@ -1,3 +1,3 @@
 using UnityEngine;
 
-public class SlotGroup : MonoBehaviour { }
+public class SlotGroup : MonoBehaviour {}
